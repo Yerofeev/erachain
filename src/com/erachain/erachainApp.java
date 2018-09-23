@@ -6,10 +6,10 @@ public class erachainApp {
 
     public static void main(String[] args) {
 
-        int maxValue = getInputValue("Enter MAX value for counter: ");
-        ThreadSafeCounter.setMaxValue(maxValue);
+        setCounterValue();
 
         ThreadSafeCounter threadSafeCounter = new ThreadSafeCounter();
+
         Thread thread1 = new Thread(threadSafeCounter);
         Thread thread2 = new Thread(threadSafeCounter);
         Thread thread3 = new Thread(threadSafeCounter);
@@ -17,33 +17,48 @@ public class erachainApp {
         thread1.start();
         thread2.start();
         thread3.start();
-
-
     }
 
-    private static int getInputValue(String message) {
+    private static void setCounterValue() {
 
-        int value = 0;
-
-        System.out.print(message);
+        System.out.println("Do you want to set MaxCounterNumber? y/n ");
 
         try (Scanner scanner = new Scanner(System.in)) {
 
+            String input;
+
             while (true) {
 
-                while (!scanner.hasNextInt()) {
-                    System.out.println("Enter valid number!");
-                    scanner.next();
+                input = scanner.next();
+
+                if (input.equalsIgnoreCase("n")) {
+                    break;
+                }
+                else if (input.equalsIgnoreCase("y")) {
+
+                    System.out.println("Enter MAX value for counter: ");
+
+                    while (true) {
+
+                        int value;
+
+                        while (!scanner.hasNextInt()) {
+                            System.out.println("Enter valid number!");
+                            scanner.next();
+                        }
+
+                        value = scanner.nextInt();
+
+                        if (value >= 0) {
+                            ThreadSafeCounter.setMaxValue(value);
+                            return;
+                        }
+
+                        System.out.println("Enter positive number!");
+                    }
                 }
 
-                value = scanner.nextInt();
-
-                if (value > 0) {
-                    return value;
-                }
-                else {
-                    System.out.println("Enter positive number!");
-                }
+                else {}
             }
         }
     }
