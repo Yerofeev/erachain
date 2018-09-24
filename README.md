@@ -1,4 +1,4 @@
-# Erachain
+# EChain
 
 ## About Thread-safe Counter
 Project is an implementation of thread-safe counter using AtomicInteger. 
